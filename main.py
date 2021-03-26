@@ -4,9 +4,16 @@ from dataread import reader
 from flask import Flask,request,render_template
 
 datastore = dataStore()
-datastore.connect()
+datastore.createdb('bus.db')
+datastore.createtable('bus.db')
 reader = reader()
 data = reader.stops_reader('bus_stops.json')
+
+try:
+    #Store data only for the first time
+    datastore.insert(data,'bus.db')
+except:
+    pass
 
 app = Flask(__name__)
 
