@@ -8,7 +8,7 @@ class rosaline:
         
         """
         #convert to radians
-        lat1,long1,lat2,long2 = map(radians, (long1,lat1,long2,lat2))
+        lat1,long1,lat2,long2 = map(radians, (lat1,long1,lat2,long2))
 
         #haversine formula
         delta_long = long2 - long1

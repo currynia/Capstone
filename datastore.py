@@ -17,7 +17,7 @@ INSERT INTO stops VALUES(?,?,?,?,?);
 
 'get_coord':
 '''
-SELECT "BusStopCode", "Latitude","Longitude"
+SELECT "BusStopCode","Description", "Latitude","Longitude"
 FROM "stops" 
 ''',
 

@@ -31,13 +31,16 @@ def nearest():
         location = location.split(',')
         location = {'lat':float(location[0]),'long':float(location[1])}
         submission_successful = True
-        stops_coord = datastore.get_records('bus.db','get_coord')
+        stops = datastore.get_records('bus.db','get_coord')
         distance_data = []
-        for coords in stops_coord:
-            distance_data.append({'BusstopCode':coords[0],'distance':rosaline.haversine(location['lat'],location['long'],coords[1],coords[2])})
+    
+        for stop in stops:
+            distance_data.append({'BusstopCode':stop[0],'Description':stop[1],'distance':rosaline.haversine(location['lat'],location['long'],stop[2],stop[3])})
         distance_data = sortalgo.sort_distance(distance_data)
-        nearest = datastore.get_records('bus.db','code_to_name',(distance_data[0]['BusstopCode'],))
-        return render_template('nearest.html',submission_successful=submission_successful,nearest = nearest)
+        for distance in distance_data:
+            distance.update({'distance':round(distance['distance'],2)})
+    
+        return render_template('nearest.html',submission_successful=submission_successful,distance_data = distance_data)
     
     except:
         return render_template('nearest.html')
