@@ -23,10 +23,14 @@
 </head>
 
 <body>
-    <form id='location' action="/nearest1" method="post">
+    <form id='location' action="/nearest" method="post">
         <input type="hidden" id='Lat+Long' name='id' />
-        <input type='button' onclick="getLocationConstant()" value='blah'>
+        <input type='button' onclick="getLocationConstant()" value='Press me to get your nearest bus stop!'>
     </form>
+
+    {% if submission_successful %}
+        <p>The nearest bus stop is {{nearest_busstop}}</p>
+    {% endif %}
 </body>
 
 
