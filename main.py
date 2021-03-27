@@ -24,24 +24,23 @@ app = Flask(__name__)
 def root():
     return render_template('index.html')
 
-@app.route('/nearest', methods=['POST','GET'])
+@app.route('/nearestbusstop', methods=['POST','GET'])
 def nearest():
-    # try:
-    location = request.form['id']
-    location = location.split(',')
-    location = {'lat':float(location[0]),'long':float(location[1])}
-    submission_successful = True
-    stops_coord = datastore.get_records('bus.db','get_coord')
-    distance_data = []
-    for coords in stops_coord:
-        distance_data.append({'BusstopCode':coords[0],'distance':rosaline.haversine(location['lat'],location['long'],coords[1],coords[2])})
-    distance_data = sortalgo.sort_distance(distance_data)
-    nearest = datastore.get_records('bus.db','code_to_name',(distance_data[0]['BusstopCode'],))
-    nearest_busstop = nearest[0][0]
-    return render_template('nearest.html',submission_successful=submission_successful,nearest_busstop = nearest_busstop)
-
-    # except:
-    return render_template('nearest.html')
+    try:
+        location = request.form['id']
+        location = location.split(',')
+        location = {'lat':float(location[0]),'long':float(location[1])}
+        submission_successful = True
+        stops_coord = datastore.get_records('bus.db','get_coord')
+        distance_data = []
+        for coords in stops_coord:
+            distance_data.append({'BusstopCode':coords[0],'distance':rosaline.haversine(location['lat'],location['long'],coords[1],coords[2])})
+        distance_data = sortalgo.sort_distance(distance_data)
+        nearest = datastore.get_records('bus.db','code_to_name',(distance_data[0]['BusstopCode'],))
+        return render_template('nearest.html',submission_successful=submission_successful,nearest = nearest)
+    
+    except:
+        return render_template('nearest.html')
 
 
 

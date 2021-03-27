@@ -20,16 +20,30 @@
             alert("Error code " + event.code + ". " + event.message);
         }
     </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cyborg/bootstrap.min.css" 
+    integrity="sha384-nEnU7Ae+3lD52AK+RGNzgieBWMnEfgTbRHIwEvp1XXPdqdO6uLTd/NwXbzboqjc2" crossorigin="anonymous">
 </head>
 
 <body>
-    <form id='location' action="/nearest" method="post">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Nearest Stop</li>
+      </ol>
+    <form id='location' action="/nearestbusstop" method="post">
         <input type="hidden" id='Lat+Long' name='id' />
-        <input type='button' onclick="getLocationConstant()" value='Press me to get your nearest bus stop!'>
+        <input type='button' class='btn btn-primary' onclick="getLocationConstant()" value='Press me to get your nearest bus stop!'>
     </form>
 
     {% if submission_successful %}
-        <p>The nearest bus stop is {{nearest_busstop}}</p>
+        <p>The nearest bus stop is {{nearest[0][0]}}</p>
+        <table class = 'table table-hover'>
+            <tr>
+                <th scope="row">Bus Stop Code</th>
+                <td>Bus Stop Name</td>
+                <td>Distance from Bus Stop</td>
+        
+            </tr>
+        </table>
     {% endif %}
 </body>
 
