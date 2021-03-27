@@ -1,4 +1,4 @@
-import sqlite3
+
 from datastore import dataStore
 from dataread import reader
 from flask import Flask,request,render_template
@@ -27,7 +27,9 @@ def nearest():
 
 @app.route('/nearest1', methods=['POST','GET'])
 def nearest1():
-    print(request.form['id'])
+    location = request.form['id']
+    location = location.split(',')
+    print(location)
     return ('''asdasd''')
 
 
