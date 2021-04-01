@@ -1,5 +1,8 @@
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <script type="text/javascript">
         function getLocationConstant() {
             if (navigator.geolocation) {
@@ -11,7 +14,8 @@
     
         // If we have a successful location update
         function onGeoSuccess(event) {
-            document.getElementById("Lat+Long").value = [event.coords.latitude,event.coords.longitude];
+            document.getElementById("Lat").value = event.coords.latitude;
+            document.getElementById("Long").value = event.coords.longitude;
             document.getElementById('location').submit(); 
         }
     
@@ -20,6 +24,7 @@
             alert("Error code " + event.code + ". " + event.message);
         }
     </script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cyborg/bootstrap.min.css" 
     integrity="sha384-nEnU7Ae+3lD52AK+RGNzgieBWMnEfgTbRHIwEvp1XXPdqdO6uLTd/NwXbzboqjc2" crossorigin="anonymous">
 </head>
@@ -29,11 +34,21 @@
         <li class="breadcrumb-item"><a href="/">Home</a></li>
         <li class="breadcrumb-item active">Nearest Stop</li>
       </ol>
+    <h6>Press "Get Current Location" to automatically to get your location or manually input your location</h6>
+    
     <form id='location' action="/nearestbusstop" method="post">
-        <input type="hidden" id='Lat+Long' name='id' />
-        <input type='button' class='btn btn-primary' onclick="getLocationConstant()" value='Press me to get your nearest bus stop!'>
+        <input type="hidden" id='Lat' name='Lat' />
+        <input type="hidden" id='Long' name='Long'>
+        <input type='button' class='btn btn-primary' onclick="getLocationConstant()" value='Get current location'>    
     </form>
-
+    <form action="/nearestbusstop" method='post'>
+        <label style ='color:white' for='lat'>Input latitude:</label>
+        <input type='text' id='lat' name = 'Lat'>
+        <label style='color:white' for='Long'>Input longitude:</label>
+        <input type='text' id='Long' name='Long' >
+        <input type ='submit' class='btn btn-primary'>
+    </form>
+    
     {% if submission_successful %}
         <p>The nearest bus stop is {{distance_data[0]['Description']}} ({{distance_data[0]['BusstopCode']}})</p>
         <table class = 'table table-hover'>
@@ -51,6 +66,9 @@
             {% endfor %}
         </table>
     {% endif %}
+
+
+    
 </body>
 
 

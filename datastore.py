@@ -35,6 +35,9 @@ class dataStore:
         db = sqlite3.connect(db)
     
     def createtable(self,db,table):
+        '''
+        
+        '''
         conn = sqlite3.connect(db)
         cur = conn.cursor()
         cur.execute(commands.get(table))

@@ -1,11 +1,11 @@
-from rosaline import rosaline
+from formula import formula
 from datastore import dataStore
 from dataread import reader
 from flask import Flask,request,render_template
 from sort_algo import sortalgo
 
 sortalgo = sortalgo()
-rosaline = rosaline()
+formula = formula()
 datastore = dataStore()
 datastore.createdb('bus.db')
 datastore.createtable('bus.db','bus_stops')
@@ -27,15 +27,14 @@ def root():
 @app.route('/nearestbusstop', methods=['POST','GET'])
 def nearest():
     try:
-        location = request.form['id']
-        location = location.split(',')
-        location = {'lat':float(location[0]),'long':float(location[1])}
+        lat = request.form['Lat']
+        long = request.form['Long']
+        location = {'lat':float(lat),'long':float(long)}
         submission_successful = True
         stops = datastore.get_records('bus.db','get_coord')
         distance_data = []
-    
         for stop in stops:
-            distance_data.append({'BusstopCode':stop[0],'Description':stop[1],'distance':rosaline.haversine(location['lat'],location['long'],stop[2],stop[3])})
+            distance_data.append({'BusstopCode':stop[0],'Description':stop[1],'distance':formula.haversine(location['lat'],location['long'],stop[2],stop[3])})
         distance_data = sortalgo.sort_distance(distance_data)
         for distance in distance_data:
             distance.update({'distance':round(distance['distance'],2)})
@@ -49,4 +48,4 @@ def nearest():
 
 
 
-app.run(debug=True)
+app.run('0.0.0.0',debug=True)

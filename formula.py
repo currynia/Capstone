@@ -1,7 +1,7 @@
 from math import radians, cos, sin, asin, sqrt
 
 
-class rosaline:
+class formula:
     def haversine(self,lat1,long1,lat2,long2):
         """
         Calculates the distance between 2 points
