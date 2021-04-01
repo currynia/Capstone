@@ -6,9 +6,15 @@ class reader:
         self.stops = []
     
     def stops_reader(self,file):
-        '''
-        Takes in a json file containing the data of the bus stops and returns a list containing the data
-        '''
+        """
+        Reads in json file containing bus stop data and append it into an array
+
+        Args:
+            file (json): json file containing bus stop data
+
+        Returns:
+            list: array with all the bus stop data
+        """        
         with open(file,'r') as f:
             data = json.load(f)
             for stops in data:

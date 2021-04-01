@@ -51,6 +51,17 @@ class dataStore:
             conn.commit()
     
     def get_records(self,db,command,param=None):
+        """
+        A general function that retrieves records from a database
+
+        Args:
+            db (database): database to access
+            command (string): key of one of the items in the commands dict
+            param (tuple, optional): A tuple containing the items to be passed into the SQL command. Defaults to None.
+
+        Returns:
+            list: list of tuples containing the records retrieved
+        """        
         conn =  sqlite3.connect(db)
         cur = conn.cursor()
         if param is None:
