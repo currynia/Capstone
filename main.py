@@ -44,6 +44,10 @@ def nearest():
     except:
         return render_template('nearest.html')
 
+@app.route('/help')
+def help():
+    return render_template('help.html')
+
 
 
 
