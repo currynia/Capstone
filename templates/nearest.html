@@ -25,7 +25,7 @@
         }
     </script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/superhero/bootstrap.min.css" integrity="sha384-HnTY+mLT0stQlOwD3wcAzSVAZbrBp141qwfR4WfTqVQKSgmcgzk+oP0ieIyrxiFO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/pulse/bootstrap.min.css" integrity="sha384-L7+YG8QLqGvxQGffJ6utDKFwmGwtLcCjtwvonVZR/Ba2VzhpMwBz51GaXnUsuYbj" crossorigin="anonymous">
 </head>
 
 <body>
@@ -33,17 +33,18 @@
         <li class="breadcrumb-item"><a href="/">Home</a></li>
         <li class="breadcrumb-item active">Nearest Stop</li>
     </ol>
+    <div class='container'>
     <h6>Press "Get Current Location" to automatically to get your location or manually input your location</h6>
     
-    <form id='location' action="/nearestbusstop" method="post">
+    <form id='location' action="/nearestbusstop" method="get">
         <input type="hidden" id='Lat' name='Lat' />
         <input type="hidden" id='Long' name='Long'>
-        <input type='button' class='btn btn-primary' onclick="getLocationConstant()" value='Get current location'>    
+        <input type='button' class='btn btn-primary mb-2' onclick="getLocationConstant()" value='Get current location'>    
     </form>
-    <form action="/nearestbusstop" method='post'>
-        <label style ='color:white' for='lat'>Input latitude:</label>
+    <form action="/nearestbusstop" method='get'>
+        <label for='lat'>Input latitude:</label>
         <input type='text' id='lat' name = 'Lat'>
-        <label style='color:white' for='Long'>Input longitude:</label>
+        <label for='Long'>Input longitude:</label>
         <input type='text' id='Long' name='Long' >
         <input type ='submit' class='btn btn-primary'>
     </form>
@@ -65,7 +66,7 @@
             {% endfor %}
         </table>
     {% endif %}
-
+    </div>
 
     
 </body>

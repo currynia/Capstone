@@ -1,6 +1,7 @@
 import sqlite3
 
-commands = {'bus_stops':
+commands = {
+'bus_stops':
 '''
 CREATE TABLE IF NOT EXISTS stops(
     "BusStopCode" TEXT UNIQUE PRIMARY KEY,
@@ -12,7 +13,7 @@ CREATE TABLE IF NOT EXISTS stops(
 
 'bus_insert':
 '''
-INSERT INTO stops VALUES(?,?,?,?,?);
+INSERT OR IGNORE INTO stops VALUES(?,?,?,?,?);
 ''',
 
 'get_coord':
@@ -30,12 +31,23 @@ WHERE stops.Busstopcode = ?
 
 }
 
-class dataStore:
+class DataStore:
     def createdb(self,db):
+        '''
+        Create a database
+
+        Args:
+            db (database): Name of database to be created
+        '''
         db = sqlite3.connect(db)
     
     def createtable(self,db,table):
         '''
+        Creates a table in the specified database
+
+        Args:
+            db (database): Database to create the table in
+            table (table): The table to create; command obtained from the 'commands' dictionary
         
         '''
         conn = sqlite3.connect(db)
@@ -43,7 +55,15 @@ class dataStore:
         cur.execute(commands.get(table))
         conn.commit()
     
-    def insert(self,data,db):
+    def coord_insert(self,data,db):
+        """
+        A function that inserts bus stops data into the 'STOPS' table
+
+        Args:
+            data (array): List containing bus stop data
+            db (database): Database to insert the data into
+
+        """
         conn = sqlite3.connect(db)
         cur = conn.cursor()
         for stop in data:

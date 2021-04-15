@@ -1,5 +1,14 @@
-class sortalgo:
+class SortAlgo:
     def sort_distance(self,array):
+        '''
+        Sorting function that uses Merge Sort to sort an array of bus stops based on their distance from a specified coordinate
+
+        Args:
+            array (list): List containing the bus stop distances with respect to the specified coordinate 
+        
+        Returns:
+            list: List with the bus stop distances sorted from the nearest bus stop from that point to the furthest bus stop from that point
+        '''
         def merge(l,r):
             sortedarray = []
             while len(l) > 0 and len(r) > 0:

@@ -1,6 +1,6 @@
 import json
 
-class reader:
+class Reader:
     
     def __init__(self):
         self.stops = []
@@ -13,7 +13,7 @@ class reader:
             file (json): json file containing bus stop data
 
         Returns:
-            list: array with all the bus stop data
+            list: array with all the bus stop data in the format [BusStopcode,Description,Latitude,Longitude]
         """        
         with open(file,'r') as f:
             data = json.load(f)

@@ -1,22 +1,19 @@
-from formula import formula
-from datastore import dataStore
-from dataread import reader
+from formula import Formula
+from datastore import DataStore
+from dataread import Reader
+from sort_algo import SortAlgo
 from flask import Flask,request,render_template
-from sort_algo import sortalgo
 
-sortalgo = sortalgo()
-formula = formula()
-datastore = dataStore()
-datastore.createdb('bus.db')
-datastore.createtable('bus.db','bus_stops')
-reader = reader()
-data = reader.stops_reader('bus_stops.json')
+#initialise objects
+sortalgo = SortAlgo()
+formula = Formula()
+datastore = DataStore()
+reader = Reader()
 
-try:
-    #Store data only for the first time
-    datastore.insert(data,'bus.db')
-except:
-    pass
+datastore.createdb('bus.db') #create database
+datastore.createtable('bus.db','bus_stops') #create table
+data = reader.stops_reader('bus_stops.json') #convert bus  data to list
+datastore.coord_insert(data,'bus.db') #insert bus stop data into database
 
 app = Flask(__name__)
 
@@ -24,32 +21,29 @@ app = Flask(__name__)
 def root():
     return render_template('index.html')
 
-@app.route('/nearestbusstop', methods=['POST','GET'])
+@app.route('/nearestbusstop', methods=['GET'])
 def nearest():
     try:
-        lat = request.form['Lat']
-        long = request.form['Long']
+        #get latitude and longitude from form and stores it into a dictionary
+        lat = request.args['Lat']
+        long = request.args['Long']
         location = {'lat':float(lat),'long':float(long)}
         submission_successful = True
         stops = datastore.get_records('bus.db','get_coord')
-        distance_data = []
-        for stop in stops:
+        distance_data = [] #initialise empty array
+        for stop in stops: #calculate distance of each bus stop from coordinates
             distance_data.append({'BusstopCode':stop[0],'Description':stop[1],'distance':formula.haversine(location['lat'],location['long'],stop[2],stop[3])})
-        distance_data = sortalgo.sort_distance(distance_data)
-        for distance in distance_data:
+        distance_data = sortalgo.sort_distance(distance_data) #sort array based on distance from coordinates
+        for distance in distance_data: #convert distance values into 2dp
             distance.update({'distance':round(distance['distance'],2)})
-    
         return render_template('nearest.html',submission_successful=submission_successful,distance_data = distance_data)
     
     except:
+        
         return render_template('nearest.html')
 
 @app.route('/help')
 def help():
     return render_template('help.html')
 
-
-
-
-
-app.run(debug=True)
+app.run('0.0.0.0')
