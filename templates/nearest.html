@@ -34,7 +34,7 @@
         <li class="breadcrumb-item active">Nearest Stop</li>
     </ol>
     <div class='container'>
-    <h6>Press "Get Current Location" to automatically to get your location or manually input your location</h6>
+    <h6>Press "Get Current Location" to automatically to get your location or manually input your location.</h6>
     
     <form id='location' action="/nearestbusstop" method="get">
         <input type="hidden" id='Lat' name='Lat' />
@@ -48,7 +48,7 @@
         <input type='text' id='Long' name='Long' >
         <input type ='submit' class='btn btn-primary'>
     </form>
-    
+    <h6>{{ error }}</h6>
     {% if submission_successful %}
         <p>The nearest bus stop is {{distance_data[0]['Description']}} ({{distance_data[0]['BusstopCode']}})</p>
         <table class = 'table table-hover'>
