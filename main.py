@@ -34,8 +34,9 @@ def nearest():
         #get latitude and longitude from form and stores it into a dictionary
         lat_check = 'None'
         long_check = 'None'
-        if lat.count('.') == 1 and long.count('.') == 1:
-            lat_check,long_check = lat.replace('.',''),long.replace('.','')
+        if lat.count('.') < 2:
+            if long.count('.') < 2:
+                lat_check,long_check = lat.replace('.',''),long.replace('.','')
         if lat_check.isdigit() and long_check.isdigit(): 
             location = {'lat':float(lat),'long':float(long)}
             submission_successful = True
