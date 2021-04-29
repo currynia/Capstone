@@ -3,8 +3,11 @@ from datastore import DataStore
 from dataread import Reader
 from sort_algo import SortAlgo
 from flask import Flask,request,render_template
+from Validation import Check
+
 
 #initialise objects
+
 sortalgo = SortAlgo()
 formula = Formula()
 datastore = DataStore()
@@ -16,7 +19,8 @@ data = reader.stops_reader('bus_stops.json') #convert bus  data to list
 datastore.coord_insert(data,'bus.db') #insert bus stop data into database
 
 app = Flask(__name__)
-
+debug = True
+  
 @app.route('/')
 def root():
     return render_template('index.html')
@@ -31,13 +35,8 @@ def nearest():
         submission_successful = False
     
     if submission_successful:
-        #get latitude and longitude from form and stores it into a dictionary
-        lat_check = 'None'
-        long_check = 'None'
-        if lat.count('.') < 2:
-            if long.count('.') < 2:
-                lat_check,long_check = lat.replace('.',''),long.replace('.','')
-        if lat_check.isdigit() and long_check.isdigit(): 
+        check = Check(lat,long)
+        if check.checker():
             location = {'lat':float(lat),'long':float(long)}
             submission_successful = True
             stops = datastore.get_records('bus.db','get_coord')
@@ -48,6 +47,8 @@ def nearest():
             for distance in distance_data: #convert distance values into 2dp
                 distance.update({'distance':round(distance['distance'],2)})
             return render_template('nearest.html',submission_successful=submission_successful,distance_data = distance_data)
+        
+    
     
         else:
             error = "Please input numbers only"

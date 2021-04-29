@@ -31,6 +31,8 @@ WHERE stops.Busstopcode = ?
 
 }
 
+
+
 class DataStore:
     def createdb(self,db):
         '''
