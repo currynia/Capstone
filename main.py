@@ -1,14 +1,13 @@
 from formula import Formula
 from datastore import DataStore
 from dataread import Reader
-from sort_algo import SortAlgo
+from mergesort import mergeSort
 from flask import Flask,request,render_template
 from validation import Check
 
 
-#initialise objects
 
-sortalgo = SortAlgo()
+
 formula = Formula()
 datastore = DataStore()
 reader = Reader()
@@ -43,7 +42,8 @@ def nearest():
             distance_data = [] 
             for stop in stops: #calculate distance of each bus stop from coordinates
                 distance_data.append({'BusstopCode':stop[0],'Description':stop[1],'distance':formula.haversine(location['lat'],location['long'],stop[2],stop[3])})
-            distance_data = sortalgo.sort_distance(distance_data) #sort array based on distance from specified coordinates
+            
+            distance_data = mergeSort(distance_data) #sort array based on distance from specified coordinates
             for distance in distance_data: #convert distance values into 2dp
                 distance.update({'distance':round(distance['distance'],2)})
             return render_template('nearest.html',submission_successful=submission_successful,distance_data = distance_data)
@@ -51,7 +51,7 @@ def nearest():
     
     
         else:
-            error = "Please input numbers only"
+            error = "Please input numbers with the correct format only"
             return render_template('nearest.html',error=error)
     else:
         return render_template('nearest.html')
