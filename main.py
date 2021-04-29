@@ -1,14 +1,10 @@
-from formula import Formula
+from formula import haversine
 from datastore import DataStore
 from dataread import Reader
 from mergesort import mergeSort
 from flask import Flask,request,render_template
 from validation import Check
 
-
-
-
-formula = Formula()
 datastore = DataStore()
 reader = Reader()
 
@@ -41,7 +37,7 @@ def nearest():
             stops = datastore.get_records('bus.db','get_coord')
             distance_data = [] 
             for stop in stops: #calculate distance of each bus stop from coordinates
-                distance_data.append({'BusstopCode':stop[0],'Description':stop[1],'distance':formula.haversine(location['lat'],location['long'],stop[2],stop[3])})
+                distance_data.append({'BusstopCode':stop[0],'Description':stop[1],'distance':haversine(location['lat'],location['long'],stop[2],stop[3])})
             
             distance_data = mergeSort(distance_data) #sort array based on distance from specified coordinates
             for distance in distance_data: #convert distance values into 2dp
