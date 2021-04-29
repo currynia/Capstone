@@ -3,7 +3,7 @@ from datastore import DataStore
 from dataread import Reader
 from sort_algo import SortAlgo
 from flask import Flask,request,render_template
-from Validation import Check
+from validation import Check
 
 
 #initialise objects
