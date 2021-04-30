@@ -1,6 +1,4 @@
-
-
-def merge(l,r):
+def merge(l,r): 
     sortedarray = []
     while len(l) > 0 and len(r) > 0:
         if l[0]['distance'] > r[0]['distance']:

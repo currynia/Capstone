@@ -10,11 +10,11 @@ reader = Reader()
 
 datastore.createdb('bus.db') #create database
 datastore.createtable('bus.db','bus_stops') #create table
-data = reader.stops_reader('bus_stops.json') #convert bus  data to list
-datastore.coord_insert(data,'bus.db') #insert bus stop data into database
+reader.stops_reader('bus_stops.json') #convert bus data to list
+datastore.coord_insert(reader.stops,'bus.db') #insert bus stop data into database
 
 app = Flask(__name__)
-debug = True
+
   
 @app.route('/')
 def root():
@@ -47,7 +47,7 @@ def nearest():
     
     
         else:
-            error = "Please input numbers with the correct format only"
+            error = "Please check your coordinates again."
             return render_template('nearest.html',error=error)
     else:
         return render_template('nearest.html')
@@ -56,4 +56,4 @@ def nearest():
 def help():
     return render_template('help.html')
 
-app.run('0.0.0.0')
+app.run()

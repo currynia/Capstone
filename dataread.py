@@ -3,7 +3,7 @@ import json
 class Reader:
     
     def __init__(self):
-        self.stops = []
+        self.stops = [] #Array to store bus stop data
     
     def stops_reader(self,file):
         """
@@ -19,6 +19,5 @@ class Reader:
             data = json.load(f)
             for stops in data:
                 self.stops.append(stops)
-        return self.stops
-
+        
     

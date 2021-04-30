@@ -1,7 +1,5 @@
 from math import radians, cos, sin, asin, sqrt
 
-
-
 def haversine(lat1,long1,lat2,long2):
     """
     Calculates the distance between 2 points
